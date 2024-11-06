@@ -6,24 +6,44 @@ const spooky = {
   sleepy: 0,
   maxBored: 100,
   notBored: 0,
+  money: 0,
 };
+
+// class Tamagotchi {}
+const ghostContainer = document.querySelector(".main__screen-ghost-container");
+// const ghost = document.querySelector(".fa-ghost");
+const moneyContainer = document.querySelector(".main__money-section-amount");
+const workBtn = document.querySelector(".main__btn--work");
+const boredContainer = document.querySelector(".main__bored-container");
+const boredBtn = document.querySelector(".main__btn--play");
+const faceContainer = document.querySelector(".main__face-container");
+const hungryBtn = document.querySelector(".main__btn--eat");
+const sleepContainer = document.querySelector(".main__sleepy-container");
+const sleepyBnt = document.querySelector(".main__btn--sleep");
+ghostContainer.innerHTML = `<i class="fa-solid fa-ghost"></i>`;
 //hungry
 let face;
 const hungerInterval = setInterval(() => {
   const hungryFace = handleHunger();
   handleFace(hungryFace);
-}, 200);
-const faceContainer = document.querySelector(".main__face-container");
-const hungryBtn = document.querySelector(".main__btn--eat");
-const ghost = document.querySelector(".fa-ghost");
+}, 3000);
+
 hungryBtn.addEventListener("click", () => {
-  ghost.classList.toggle("fa-ghost-toggle-food");
+  if (spooky.money >= 1) {
+    spooky.money--;
+    moneyContainer.innerHTML = `: ${spooky.money}`;
+  } else {
+    return;
+  }
+  console.log(spooky.money);
+
+  ghostContainer.classList.toggle("fa-ghost-toggle-food");
   setTimeout(() => {
-    ghost.classList.remove("fa-ghost-toggle-food");
+    ghostContainer.classList.remove("fa-ghost-toggle-food");
   }, 100);
 
   if (spooky.hungry >= 0) {
-    console.log(hungry--);
+    spooky.hungry--;
   } else {
     return;
   }
@@ -31,6 +51,7 @@ hungryBtn.addEventListener("click", () => {
 
 function handleHunger() {
   spooky.hungry++;
+
   console.log(spooky.hungry);
 
   if (spooky.hungry <= 33) {
@@ -66,8 +87,7 @@ function handleFace(hungryFace) {
 
 //////////////////////////////////////////////////////////////////////
 //tired
-const sleepContainer = document.querySelector(".main__sleepy-container");
-const sleepyBnt = document.querySelector(".main__btn--sleep");
+
 let sleepyFace;
 const sleepyInterval = setInterval(() => {
   // här va en grej, spara varibael
@@ -77,7 +97,7 @@ const sleepyInterval = setInterval(() => {
   //känner de v bara en slump att de båda funkttionerna är på samma plats o då går de bra men hur fan gör man annars?
   const face = handleSleep();
   handleSleepyFace(face);
-}, 200);
+}, 100);
 
 function handleSleep() {
   spooky.sleepy++;
@@ -116,9 +136,9 @@ function handleSleepyFace(face) {
 }
 
 sleepyBnt.addEventListener("click", () => {
-  ghost.classList.toggle("fa-ghost-toggle-bed");
+  ghostContainer.classList.toggle("fa-ghost-toggle-bed");
   setTimeout(() => {
-    ghost.classList.remove("fa-ghost-toggle-bed");
+    ghostContainer.classList.remove("fa-ghost-toggle-bed");
   }, 100);
   if (spooky.sleepy >= 0) {
     spooky.sleepy--;
@@ -129,14 +149,13 @@ sleepyBnt.addEventListener("click", () => {
 
 // //////////////////////////////////////////////////////////////
 //bored
-const boredContainer = document.querySelector(".main__bored-container");
-const boredBtn = document.querySelector(".main__btn--play");
+
 boredBtn.addEventListener("click", () => {
   console.log("clicked bored");
 
-  ghost.classList.toggle("fa-ghost-toggle-fun");
+  ghostContainer.classList.toggle("fa-ghost-toggle-fun");
   setTimeout(() => {
-    ghost.classList.remove("fa-ghost-toggle-fun");
+    ghostContainer.classList.remove("fa-ghost-toggle-fun");
   }, 100);
   if (spooky.notBored >= 0) {
     spooky.notBored--;
@@ -149,12 +168,14 @@ let boredFace;
 const boredInterval = setInterval(() => {
   const boredFace = handleBored();
   handleBoredFace(boredFace);
-  saveDataLocalStorage();
-}, 2000);
+  //   saveDataLocalStorage();
+}, 100);
 
 function handleBored() {
   spooky.notBored++;
+  spooky.sleepy++;
   console.log(spooky.notBored);
+  leavingTheHouse();
 
   if (spooky.notBored <= 35) {
     boredFace = "not bored";
@@ -181,25 +202,41 @@ function handleBoredFace(boredFace) {
 }
 //////////////////////////////////////////////////////////////////
 //work
-let money = 0;
-const moneyContainer = document.querySelector(".main__money-section-amount");
-moneyContainer.innerHTML = `${money}`;
-const workBtn = document.querySelector(".main__btn--work");
+moneyContainer.innerHTML = `: ${spooky.money}`;
 workBtn.addEventListener("click", () => {
-  money++;
-  moneyContainer.innerHTML = `${money}`;
-  ghost.classList.toggle("fa-ghost-toggle-work");
+  spooky.money = spooky.money + 4;
+  spooky.sleepy = spooky.sleepy + 2;
+  spooky.notBored++;
+  moneyContainer.innerHTML = `: ${spooky.money}`;
+  ghostContainer.classList.toggle("fa-ghost-toggle-work");
   setTimeout(() => {
-    ghost.classList.remove("fa-ghost-toggle-work");
+    ghostContainer.classList.remove("fa-ghost-toggle-work");
   }, 100);
-  console.log(money);
 });
 
-function handleWork() {}
+// function handleWork() {}
+function leavingTheHouse() {
+  if (
+    spooky.hungry === spooky.maxHungry ||
+    spooky.sleepy === spooky.maxSleepy ||
+    spooky.notBored === spooky.maxBored
+  ) {
+    console.log("jag lämnar nu!");
+    ghostContainer.innerHTML = `<i class="fa-solid fa-skull-crossbones"></i>`;
+  } else {
+    console.log("jag lever fortf");
+  }
+}
 
-// för varje äta tryck ska de förvinna en dollar plus upp energi....
-// för varje play ska icke utttråkad va uppe och energin ner..
-//för varje jobbtryck energin ska gå ner snabbare el mer..plus pengar upp
+// start o resttar knapp.. göra httml som genereras
+// sen spara i localStorage
+// sen slutligen om ja vill göra flera obj av en class o loopa o sen blir olika djur
+// kolla over namnen ..vissa är intte bra
+
+// har svårt o veta varför ja intte når här...till ex spooku
+// de uppdatteras väl hela tiden dens properties så
+// ska vl kunna göra såhör?? men måste göra de inne i
+//settintervall why??????????
 
 // function saveDataLocalStorage() {
 //   return localStorage.setItem("spooky", JSON.stringify(spooky));

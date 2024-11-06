@@ -21,7 +21,7 @@ body {
   position: relative;
 }
 /* .main__face-container {
-} */
+  } */
 
 .main__wrapper {
   height: 100%;
@@ -52,15 +52,23 @@ body {
   justify-content: center;
   align-items: center;
 }
-.fa-solid {
-  margin: 6px;
-}
-.fa-ghost {
-  font-size: 100px;
+.main__screen-ghost-container {
   position: absolute;
   top: 37%;
   left: 40%;
 }
+.fa-solid {
+  margin: 6px;
+}
+
+.fa-ghost {
+  font-size: 100px;
+}
+.fa-skull-crossbones {
+  font-size: 100px;
+  color: red;
+}
+
 .fa-ghost-toggle-food {
   animation-name: movingFood;
   animation-duration: 0.2s;
@@ -135,13 +143,13 @@ body {
 }
 
 /* .main__btn--eat {
-}
-.main__btn--play {
-}
-.main__btn--sleep {
-}
-.main__btn--work {
-} */
+  }
+  .main__btn--play {
+  }
+  .main__btn--sleep {
+  }
+  .main__btn--work {
+  } */
 
 .main__screen {
   background-color: antiquewhite;
@@ -185,10 +193,8 @@ body {
 }
 
 .main__screen-sec {
-  /* background-color: red; */
   border: 2px solid black;
   border-radius: 1rem;
-
   width: 100px;
   height: 100px;
   display: flex;
@@ -222,12 +228,7 @@ body {
 .fa-briefcase {
   font-size: 60px;
 }
-.fa-door-closed {
-  position: absolute;
-  bottom: 0;
-  left: 41%;
-  font-size: 54px;
-}
+
 .main__money-section {
   position: absolute;
   left: 29%;
