@@ -61,6 +61,79 @@ body {
   top: 37%;
   left: 40%;
 }
+.fa-ghost-toggle-food {
+  animation-name: movingFood;
+  animation-duration: 0.2s;
+}
+.fa-ghost-toggle-bed {
+  animation-name: movingBed;
+  animation-duration: 0.2s;
+}
+.fa-ghost-toggle-fun {
+  animation-name: movingFun;
+  animation-duration: 0.2s;
+}
+.fa-ghost-toggle-work {
+  animation-name: movingWork;
+  animation-duration: 0.2s;
+}
+@keyframes movingFood {
+  0% {
+    top: 37%;
+    left: 40%;
+  }
+  50% {
+    top: 10%;
+    left: 18%;
+  }
+  100% {
+    top: 37%;
+    left: 40%;
+  }
+}
+@keyframes movingBed {
+  0% {
+    top: 37%;
+    left: 40%;
+  }
+  50% {
+    top: 60%;
+    left: 18%;
+  }
+  100% {
+    top: 37%;
+    left: 40%;
+  }
+}
+@keyframes movingFun {
+  0% {
+    top: 37%;
+    left: 40%;
+  }
+  50% {
+    top: 10%;
+    left: 60%;
+  }
+  100% {
+    top: 37%;
+    left: 40%;
+  }
+}
+@keyframes movingWork {
+  0% {
+    top: 37%;
+    left: 40%;
+  }
+  50% {
+    top: 60%;
+    left: 60%;
+  }
+  100% {
+    top: 37%;
+    left: 40%;
+  }
+}
+
 /* .main__btn--eat {
 }
 .main__btn--play {
@@ -80,6 +153,7 @@ body {
   border-top-left-radius: 2rem;
   border-bottom-left-radius: 2rem;
   transform: scale(0.9);
+  position: relative;
 }
 
 .fa-regular::before,
@@ -101,12 +175,88 @@ body {
   top: 3%;
   left: 50%;
 }
-
-.fa-face-laugh-wink,
-.fa-face-tired,
-.fa-face-grin-beam-sweat {
+.fa-face-grin-stars,
+.fa-face-rolling-eyes,
+.fa-face-sad-cry {
   font-size: 12rem;
   position: absolute;
   top: 3%;
   left: 70%;
+}
+
+.main__screen-sec {
+  /* background-color: red; */
+  border: 2px solid black;
+  border-radius: 1rem;
+
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main__screen-sec--fun {
+  position: absolute;
+  right: 9rem;
+  top: 3rem;
+}
+.main__screen-sec--food {
+  position: absolute;
+  left: 3rem;
+  top: 3rem;
+}
+
+.main__screen-sec--sleep {
+  position: absolute;
+  left: 3rem;
+  bottom: 3rem;
+}
+.main__screen-sec--work {
+  position: absolute;
+  right: 9rem;
+  bottom: 3rem;
+}
+.fa-pizza-slice,
+.fa-baseball-bat-ball,
+.fa-bed,
+.fa-briefcase {
+  font-size: 60px;
+}
+.fa-door-closed {
+  position: absolute;
+  bottom: 0;
+  left: 41%;
+  font-size: 54px;
+}
+.main__money-section {
+  position: absolute;
+  left: 29%;
+  bottom: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main__money-section-amount {
+  font-size: 44px;
+}
+.fa-dollar-sign {
+  font-size: 35px;
+}
+.main__power-btn {
+  font-size: 35px;
+  position: absolute;
+  left: 3%;
+  bottom: 45%;
+  height: 60px;
+  width: 60px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 2px solid black;
+}
+.fa-power-off {
+  font-size: 35px;
+  color: lightblue;
 }
