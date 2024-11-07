@@ -31,8 +31,10 @@ restartBtn.addEventListener("click", () => {
 
 //hungry section///////////////////////////////////////////////////////////////////////
 let face;
+
 const hungerInterval = setInterval(() => {
-  console.log(spooky);
+  /// göra en func här som bara kör inttervall upp ttill 100 o if sattsen i den
+  // console.log(spooky);
   if (
     spooky.notBored === spooky.maxBored ||
     spooky.sleepy === spooky.maxSleepy
@@ -40,12 +42,12 @@ const hungerInterval = setInterval(() => {
   } else {
     const hungryFace = handleHunger();
     handleFace(hungryFace);
-    // saveDataLocalStorage();
+    saveDataLocalStorage();
   }
 
   // const hungryFace = handleHunger();
   // handleFace(hungryFace);
-}, 200);
+}, 10000);
 
 hungryBtn.addEventListener("click", () => {
   if (spooky.money >= 1) {
@@ -54,7 +56,7 @@ hungryBtn.addEventListener("click", () => {
   } else {
     return;
   }
-  console.log(spooky.money);
+  // console.log(spooky.money);
 
   ghostContainer.classList.toggle("fa-ghost-toggle-food");
   setTimeout(() => {
@@ -112,7 +114,7 @@ const sleepyInterval = setInterval(() => {
   } else {
     const face = handleSleep();
     handleSleepyFace(face);
-    // saveDataLocalStorage();
+    saveDataLocalStorage();
   }
 
   // här va en grej, spara varibael
@@ -122,7 +124,7 @@ const sleepyInterval = setInterval(() => {
   //känner de v bara en slump att de båda funkttionerna är på samma plats o då går de bra men hur fan gör man annars?
   // const face = handleSleep();
   // handleSleepyFace(face);
-}, 5000);
+}, 1500);
 
 function handleSleep() {
   spooky.sleepy++;
@@ -199,15 +201,15 @@ const boredInterval = setInterval(() => {
   } else {
     const boredFace = handleBored();
     handleBoredFace(boredFace);
-    // saveDataLocalStorage();
+    saveDataLocalStorage();
   }
   // const boredFace = handleBored();
   // handleBoredFace(boredFace);
-}, 5000);
+}, 200);
 
 function handleBored() {
   spooky.notBored++;
-  spooky.sleepy++;
+  // spooky.sleepy++;
   console.log(`uttråkad : ${spooky.notBored}`);
   dead();
 
@@ -268,40 +270,48 @@ function dead() {
 //settintervall why??????????
 
 // localstorage //////////////////////////////////////////////////////////////////////////
-// function saveDataLocalStorage() {
-//   console.log("save");
-//   spooky.dateNow = Date.now();
-//   localStorage.setItem("spooky", JSON.stringify(spooky));
-// }
+function saveDataLocalStorage() {
+  console.log("save");
+  spooky.dateNow = Date.now();
+  localStorage.setItem("spooky", JSON.stringify(spooky));
+}
 
-// function getDataLocalStorage() {
-//   return JSON.parse(localStorage.getItem("spooky"));
-// }
+function getDataLocalStorage() {
+  return JSON.parse(localStorage.getItem("spooky"));
+}
+console.log(getDataLocalStorage()); //////
 
-// if (getDataLocalStorage()) {
-//   spooky = JSON.parse(localStorage.getItem("spooky"));
-//   const timeInBetweenSeconds = Math.round((Date.now() - spooky.dateNow) / 1000);
-//   // nåt som ska n här..som inte hämtas från localstorage
-//   spooky.hungry += timeInBetweenSeconds;
-//   spooky.sleepy += timeInBetweenSeconds;
-//   spooky.notBored += timeInBetweenSeconds;
-//   moneyContainer.innerHTML = `${spooky.money}`;
-// } else {
-//   spooky = {
-//     name: "Jakob",
-//     maxHungry: 100,
-//     hungry: 0,
-//     maxSleepy: 100,
-//     sleepy: 0,
-//     maxBored: 100,
-//     notBored: 0,
-//     money: 0,
-//     age: 0,
-//   };
-// }
+if (getDataLocalStorage()) {
+  spooky = JSON.parse(localStorage.getItem("spooky"));
+  const timeInBetweenSeconds = Math.round((Date.now() - spooky.dateNow) / 1000);
+
+  // nåt som ska n här..som inte hämtas från localstorage
+  spooky.hungry += timeInBetweenSeconds;
+  spooky.sleepy += timeInBetweenSeconds;
+  spooky.notBored += timeInBetweenSeconds;
+  moneyContainer.innerHTML = `${spooky.money}`;
+} else {
+  spooky = {
+    name: "Jakob",
+    maxHungry: 100,
+    hungry: 0,
+    maxSleepy: 100,
+    sleepy: 0,
+    maxBored: 100,
+    notBored: 0,
+    money: 0,
+    age: 0,
+  };
+}
 
 // notbored och huungry går över..why? de sparas i localstorage men de e nåt som inte stämmmer
 // de e nåt när nån når hundra...så fortsätter de andra gå i localstorage
 //spöket bilden går inte väck helller när ja reloadar..
 // localstorage funkar men html uppdaeras inte
 // allting ökar efter ja uppdaterar
+
+// alltt fungerar förutom man reloadar..då fungerar de inte..men de sparas o i local o även adderar tiden
+//man e iväg..
+// MEN de blir inte rätt när man refreshar sidan..
+// setinttervall drar igång igen då..o bara kör!
+//problemett är när ja uppdaterar efter nån har dött...dåfungerar de inte som de ska..!
