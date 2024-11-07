@@ -1,5 +1,5 @@
-const spooky = {
-  name: "jakob",
+let spooky = {
+  name: "Jakob",
   maxHungry: 100,
   hungry: 0,
   maxSleepy: 100,
@@ -7,26 +7,45 @@ const spooky = {
   maxBored: 100,
   notBored: 0,
   money: 0,
+  dateNow: Date.now(),
 };
 
-// class Tamagotchi {}
 const ghostContainer = document.querySelector(".main__screen-ghost-container");
-// const ghost = document.querySelector(".fa-ghost");
 const moneyContainer = document.querySelector(".main__money-section-amount");
-const workBtn = document.querySelector(".main__btn--work");
+const faceContainer = document.querySelector(".main__face-container");
 const boredContainer = document.querySelector(".main__bored-container");
 const boredBtn = document.querySelector(".main__btn--play");
-const faceContainer = document.querySelector(".main__face-container");
+const workBtn = document.querySelector(".main__btn--work");
+const sleepyBnt = document.querySelector(".main__btn--sleep");
 const hungryBtn = document.querySelector(".main__btn--eat");
 const sleepContainer = document.querySelector(".main__sleepy-container");
-const sleepyBnt = document.querySelector(".main__btn--sleep");
 ghostContainer.innerHTML = `<i class="fa-solid fa-ghost"></i>`;
-//hungry
+const info = document.querySelector(".main__info-container__p");
+
+info.innerHTML = `Name : ${spooky.name}`;
+const restartBtn = document.querySelector(".main__power-btn");
+restartBtn.addEventListener("click", () => {
+  localStorage.clear();
+  location.reload();
+});
+
+//hungry section///////////////////////////////////////////////////////////////////////
 let face;
 const hungerInterval = setInterval(() => {
-  const hungryFace = handleHunger();
-  handleFace(hungryFace);
-}, 3000);
+  console.log(spooky);
+  if (
+    spooky.notBored === spooky.maxBored ||
+    spooky.sleepy === spooky.maxSleepy
+  ) {
+  } else {
+    const hungryFace = handleHunger();
+    handleFace(hungryFace);
+    // saveDataLocalStorage();
+  }
+
+  // const hungryFace = handleHunger();
+  // handleFace(hungryFace);
+}, 200);
 
 hungryBtn.addEventListener("click", () => {
   if (spooky.money >= 1) {
@@ -52,7 +71,8 @@ hungryBtn.addEventListener("click", () => {
 function handleHunger() {
   spooky.hungry++;
 
-  console.log(spooky.hungry);
+  console.log(`hungrig : ${spooky.hungry}`);
+  dead();
 
   if (spooky.hungry <= 33) {
     // console.log("not hungry");
@@ -64,8 +84,6 @@ function handleHunger() {
     // console.log("very very hungry");
     face = "inte glad";
   } else if (spooky.hungry === spooky.maxHungry) {
-    console.log("död");
-    face = "död";
     clearInterval(hungerInterval);
   }
 
@@ -80,28 +98,36 @@ function handleFace(hungryFace) {
     faceContainer.innerHTML = `<i class="fa-regular fa-face-meh"></i>`;
   } else if (changingFace === "inte glad") {
     faceContainer.innerHTML = `   <i class="fa-regular fa-face-frown"></i>`;
-  } else {
-    faceContainer.innerHTML = `  <i class="fa-solid fa-skull"></i>`;
   }
 }
 
-//////////////////////////////////////////////////////////////////////
-//tired
+// sleepy section ///////////////////////////////////////////////////////////////////////
 
 let sleepyFace;
 const sleepyInterval = setInterval(() => {
+  if (
+    spooky.hungry === spooky.maxHungry ||
+    spooky.notBored === spooky.maxBored
+  ) {
+  } else {
+    const face = handleSleep();
+    handleSleepyFace(face);
+    // saveDataLocalStorage();
+  }
+
   // här va en grej, spara varibael
   // sen skicka den visa argument..MEN HUR SKA JA KUNNA VETA DEN SKA IN JUST
   ///HÄR SÅ JAG SKA SKICKA ARGMENTET HÄRIFRÅN?? DE JA OFTTA ÄR SNETT PÅ!! SOM
   //VISAS NEDANFÖR..SEN SKICKAS DE TIL HANDLESLEEPYFACE O TAR EMOT DE!
   //känner de v bara en slump att de båda funkttionerna är på samma plats o då går de bra men hur fan gör man annars?
-  const face = handleSleep();
-  handleSleepyFace(face);
-}, 100);
+  // const face = handleSleep();
+  // handleSleepyFace(face);
+}, 5000);
 
 function handleSleep() {
   spooky.sleepy++;
-  console.log(spooky.sleepy);
+  console.log(`sömnig : ${spooky.sleepy}`);
+  dead();
 
   if (spooky.sleepy <= 25) {
     sleepyFace = "not tired";
@@ -111,12 +137,13 @@ function handleSleep() {
     sleepyFace = "litte more sleepy";
   } else if (spooky.sleepy >= 76 && spooky.sleepy <= 99) {
     sleepyFace = "very sleepy";
-  } else if (spooky.sleepy >= 100) {
+  } else if ((spooky.sleepy = spooky.maxSleepy)) {
     sleepyFace = "deadly tired";
-  }
-  if (spooky.sleepy >= spooky.maxSleepy) {
     clearInterval(sleepyInterval);
   }
+  // if (spooky.sleepy >= spooky.maxSleepy) {
+  //   clearInterval(sleepyInterval);
+  // }
   return sleepyFace;
 }
 
@@ -147,8 +174,7 @@ sleepyBnt.addEventListener("click", () => {
   }
 });
 
-// //////////////////////////////////////////////////////////////
-//bored
+// bored section ///////////////////////////////////////////////////////////////////////////////
 
 boredBtn.addEventListener("click", () => {
   console.log("clicked bored");
@@ -166,16 +192,24 @@ boredBtn.addEventListener("click", () => {
 
 let boredFace;
 const boredInterval = setInterval(() => {
-  const boredFace = handleBored();
-  handleBoredFace(boredFace);
-  //   saveDataLocalStorage();
-}, 100);
+  if (
+    spooky.hungry === spooky.maxHungry ||
+    spooky.sleepy === spooky.maxSleepy
+  ) {
+  } else {
+    const boredFace = handleBored();
+    handleBoredFace(boredFace);
+    // saveDataLocalStorage();
+  }
+  // const boredFace = handleBored();
+  // handleBoredFace(boredFace);
+}, 5000);
 
 function handleBored() {
   spooky.notBored++;
   spooky.sleepy++;
-  console.log(spooky.notBored);
-  leavingTheHouse();
+  console.log(`uttråkad : ${spooky.notBored}`);
+  dead();
 
   if (spooky.notBored <= 35) {
     boredFace = "not bored";
@@ -200,8 +234,7 @@ function handleBoredFace(boredFace) {
     boredContainer.innerHTML = `   <i class="fa-regular fa-face-sad-cry"></i> `;
   }
 }
-//////////////////////////////////////////////////////////////////
-//work
+// work section //////////////////////////////////////////////////////////////////////
 moneyContainer.innerHTML = `: ${spooky.money}`;
 workBtn.addEventListener("click", () => {
   spooky.money = spooky.money + 4;
@@ -214,36 +247,61 @@ workBtn.addEventListener("click", () => {
   }, 100);
 });
 
-// function handleWork() {}
-function leavingTheHouse() {
+function dead() {
   if (
     spooky.hungry === spooky.maxHungry ||
     spooky.sleepy === spooky.maxSleepy ||
     spooky.notBored === spooky.maxBored
   ) {
-    console.log("jag lämnar nu!");
+    hungryBtn.setAttribute("disabled", "disabled");
+    boredBtn.setAttribute("disabled", "disabled");
+    workBtn.setAttribute("disabled", "disabled");
+    sleepyBnt.setAttribute("disabled", "disabled");
     ghostContainer.innerHTML = `<i class="fa-solid fa-skull-crossbones"></i>`;
   } else {
-    console.log("jag lever fortf");
   }
 }
-
-// start o resttar knapp.. göra httml som genereras
-// sen spara i localStorage
-// sen slutligen om ja vill göra flera obj av en class o loopa o sen blir olika djur
-// kolla over namnen ..vissa är intte bra
 
 // har svårt o veta varför ja intte når här...till ex spooku
 // de uppdatteras väl hela tiden dens properties så
 // ska vl kunna göra såhör?? men måste göra de inne i
 //settintervall why??????????
 
+// localstorage //////////////////////////////////////////////////////////////////////////
 // function saveDataLocalStorage() {
-//   return localStorage.setItem("spooky", JSON.stringify(spooky));
+//   console.log("save");
+//   spooky.dateNow = Date.now();
+//   localStorage.setItem("spooky", JSON.stringify(spooky));
 // }
 
 // function getDataLocalStorage() {
 //   return JSON.parse(localStorage.getItem("spooky"));
 // }
 
-// console.log(getDataLocalStorage());
+// if (getDataLocalStorage()) {
+//   spooky = JSON.parse(localStorage.getItem("spooky"));
+//   const timeInBetweenSeconds = Math.round((Date.now() - spooky.dateNow) / 1000);
+//   // nåt som ska n här..som inte hämtas från localstorage
+//   spooky.hungry += timeInBetweenSeconds;
+//   spooky.sleepy += timeInBetweenSeconds;
+//   spooky.notBored += timeInBetweenSeconds;
+//   moneyContainer.innerHTML = `${spooky.money}`;
+// } else {
+//   spooky = {
+//     name: "Jakob",
+//     maxHungry: 100,
+//     hungry: 0,
+//     maxSleepy: 100,
+//     sleepy: 0,
+//     maxBored: 100,
+//     notBored: 0,
+//     money: 0,
+//     age: 0,
+//   };
+// }
+
+// notbored och huungry går över..why? de sparas i localstorage men de e nåt som inte stämmmer
+// de e nåt när nån når hundra...så fortsätter de andra gå i localstorage
+//spöket bilden går inte väck helller när ja reloadar..
+// localstorage funkar men html uppdaeras inte
+// allting ökar efter ja uppdaterar

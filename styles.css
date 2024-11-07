@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
   margin: 0;
+  font-family: "Caveat", serif;
 }
 body {
   width: 100vw;
@@ -20,8 +21,6 @@ body {
   align-items: center;
   position: relative;
 }
-/* .main__face-container {
-  } */
 
 .main__wrapper {
   height: 100%;
@@ -241,6 +240,14 @@ body {
   font-size: 44px;
 }
 .fa-dollar-sign {
+  font-size: 35px;
+}
+.main__info-container {
+  position: absolute;
+  left: 49%;
+  bottom: 6%;
+}
+.main__info-container__p {
   font-size: 35px;
 }
 .main__power-btn {
