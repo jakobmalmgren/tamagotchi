@@ -47,7 +47,7 @@ const hungerInterval = setInterval(() => {
 
   // const hungryFace = handleHunger();
   // handleFace(hungryFace);
-}, 10000);
+}, 300);
 
 hungryBtn.addEventListener("click", () => {
   if (spooky.money >= 1) {
@@ -124,7 +124,7 @@ const sleepyInterval = setInterval(() => {
   //känner de v bara en slump att de båda funkttionerna är på samma plats o då går de bra men hur fan gör man annars?
   // const face = handleSleep();
   // handleSleepyFace(face);
-}, 1500);
+}, 3500);
 
 function handleSleep() {
   spooky.sleepy++;
@@ -205,11 +205,10 @@ const boredInterval = setInterval(() => {
   }
   // const boredFace = handleBored();
   // handleBoredFace(boredFace);
-}, 200);
+}, 2000);
 
 function handleBored() {
   spooky.notBored++;
-  // spooky.sleepy++;
   console.log(`uttråkad : ${spooky.notBored}`);
   dead();
 
@@ -271,7 +270,6 @@ function dead() {
 
 // localstorage //////////////////////////////////////////////////////////////////////////
 function saveDataLocalStorage() {
-  console.log("save");
   spooky.dateNow = Date.now();
   localStorage.setItem("spooky", JSON.stringify(spooky));
 }
@@ -300,7 +298,6 @@ if (getDataLocalStorage()) {
     maxBored: 100,
     notBored: 0,
     money: 0,
-    age: 0,
   };
 }
 

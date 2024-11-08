@@ -51,6 +51,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+.main__btn:hover {
+  cursor: pointer;
+}
 .main__screen-ghost-container {
   position: absolute;
   top: 37%;
@@ -140,15 +143,6 @@ body {
     left: 40%;
   }
 }
-
-/* .main__btn--eat {
-  }
-  .main__btn--play {
-  }
-  .main__btn--sleep {
-  }
-  .main__btn--work {
-  } */
 
 .main__screen {
   background-color: antiquewhite;
@@ -247,6 +241,7 @@ body {
   left: 49%;
   bottom: 6%;
 }
+
 .main__info-container__p {
   font-size: 35px;
 }
