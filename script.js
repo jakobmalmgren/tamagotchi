@@ -9,7 +9,8 @@ let spooky = {
   money: 0,
   dateNow: Date.now(),
 };
-
+let weatherData;
+const mainContainer = document.querySelector(".main");
 const ghostContainer = document.querySelector(".main__screen-ghost-container");
 const moneyContainer = document.querySelector(".main__money-section-amount");
 const faceContainer = document.querySelector(".main__face-container");
@@ -21,7 +22,6 @@ const hungryBtn = document.querySelector(".main__btn--eat");
 const sleepContainer = document.querySelector(".main__sleepy-container");
 ghostContainer.innerHTML = `<i class="fa-solid fa-ghost"></i>`;
 const info = document.querySelector(".main__info-container__p");
-
 info.innerHTML = `Name : ${spooky.name}`;
 const restartBtn = document.querySelector(".main__power-btn");
 restartBtn.addEventListener("click", () => {
@@ -34,7 +34,7 @@ let face;
 
 const hungerInterval = setInterval(() => {
   /// göra en func här som bara kör inttervall upp ttill 100 o if sattsen i den
-  console.log(spooky);
+  // console.log(spooky);
   // if (
   //   spooky.notBored === spooky.maxBored ||
   //   spooky.sleepy === spooky.maxSleepy
@@ -47,8 +47,8 @@ const hungerInterval = setInterval(() => {
 
   const hungryFace = handleHunger();
   handleFace(hungryFace);
-  saveDataLocalStorage();
-}, 300);
+  // saveDataLocalStorage();
+}, 3000);
 
 hungryBtn.addEventListener("click", () => {
   if (spooky.money >= 1) {
@@ -120,7 +120,7 @@ const sleepyInterval = setInterval(() => {
 
   const face = handleSleep(); ///////////
   handleSleepyFace(face);
-  saveDataLocalStorage();
+  // saveDataLocalStorage();
 }, 3500);
 
 function handleSleep() {
@@ -201,7 +201,7 @@ const boredInterval = setInterval(() => {
 
   const boredFace = handleBored();
   handleBoredFace(boredFace);
-  saveDataLocalStorage();
+  // saveDataLocalStorage();
 }, 2000);
 
 function handleBored() {
@@ -256,42 +256,100 @@ function dead() {
     workBtn.setAttribute("disabled", "disabled");
     sleepyBnt.setAttribute("disabled", "disabled");
     ghostContainer.innerHTML = `<i class="fa-solid fa-skull-crossbones"></i>`;
-    clearInterval(boredInterval);
-    clearInterval(sleepyInterval);
-    clearInterval(hungerInterval);
+    // localStorage.clear();
+    // clearInterval(boredInterval);
+    // clearInterval(sleepyInterval);
+    // clearInterval(hungerInterval);
   } else {
     // behöver man skriva nåt?
   }
 }
 
 // localstorage //////////////////////////////////////////////////////////////////////////
-function saveDataLocalStorage() {
-  spooky.dateNow = Date.now();
-  localStorage.setItem("spooky", JSON.stringify(spooky));
-}
+// function saveDataLocalStorage() {
+//   spooky.dateNow = Date.now();
+//   localStorage.setItem("spooky", JSON.stringify(spooky));
+// }
 
-function getDataLocalStorage() {
-  return JSON.parse(localStorage.getItem("spooky"));
-}
-console.log(getDataLocalStorage()); //////
+// function getDataLocalStorage() {
+//   return JSON.parse(localStorage.getItem("spooky"));
+// }
+// console.log(getDataLocalStorage()); //////
 
-if (getDataLocalStorage()) {
-  spooky = JSON.parse(localStorage.getItem("spooky"));
-  const timeInBetweenSeconds = Math.round((Date.now() - spooky.dateNow) / 1000);
+// if (getDataLocalStorage()) {
+//   spooky = JSON.parse(localStorage.getItem("spooky"));
+//   const timeInBetweenSeconds = Math.round((Date.now() - spooky.dateNow) / 1000);
 
-  spooky.hungry += timeInBetweenSeconds;
-  spooky.sleepy += timeInBetweenSeconds;
-  spooky.notBored += timeInBetweenSeconds;
-  moneyContainer.innerHTML = `${spooky.money}`;
-} else {
-  spooky = {
-    name: "Jakob",
-    maxHungry: 100,
-    hungry: 0,
-    maxSleepy: 100,
-    sleepy: 0,
-    maxBored: 100,
-    notBored: 0,
-    money: 0,
-  };
-}
+//   spooky.hungry += timeInBetweenSeconds;
+//   spooky.sleepy += timeInBetweenSeconds;
+//   spooky.notBored += timeInBetweenSeconds;
+//   moneyContainer.innerHTML = `${spooky.money}`;
+// } else {
+//   spooky = {
+//     name: "Jakob",
+//     maxHungry: 100,
+//     hungry: 0,
+//     maxSleepy: 100,
+//     sleepy: 0,
+//     maxBored: 100,
+//     notBored: 0,
+//     money: 0,
+//   };
+// }
+
+//------------------------------weather async------------
+
+const weatherEl = document.querySelector(".main__weather-info-section__temp");
+const humidityEl = document.querySelector(
+  ".main__weather-info-section__humidity"
+);
+let searchIconEl = document.querySelector(".main__search__icon");
+const areaEl = document.querySelector(".main__city-output-name");
+const inputEl = document.querySelector(".main__search__input");
+
+const key = "SetkXO2clj7JyGzbxebIe34lIW6GPjg5";
+const options = { method: "GET", headers: { accept: "application/json" } };
+// const place = inputEl.value; // varför kan ja inte sätta den här? berätta hur koden går..hur ja ska ttänka.. jag ttänker att när ja klickar laddar seidan om från top till botten igen..men d e fel ju?
+searchIconEl.addEventListener("click", async () => {
+  const place = inputEl.value;
+
+  try {
+    const response = await fetch(
+      `https://api.tomorrow.io/v4/weather/realtime?location=${place}&apikey=${key}`,
+      options
+    );
+
+    weatherData = await response.json();
+
+    console.log(weatherData);
+
+    weatherEl.innerHTML = `Temperature: ${
+      Math.round(weatherData.data.values.temperature * 10) / 10
+    } C&deg`;
+    humidityEl.innerHTML = `Humidity: ${
+      Math.round(weatherData.data.values.humidity * 10) / 10
+    }`;
+    areaEl.innerHTML = weatherData.location.name;
+  } catch (err) {
+    console.log(" de blev ett fel");
+
+    console.log(err);
+  }
+  if (
+    weatherData &&
+    weatherData.data.values.temperature >= 10 &&
+    weatherData.data.values.temperature <= 20
+  ) {
+    spooky.sleepy -= 5;
+    spooky.notBored -= 5;
+  } else if (weatherData && weatherData.data.values.temperature >= 21) {
+    spooky.sleepy = 0;
+    spooky.notBored = 0;
+    mainContainer.style.backgroundColor = "#f8f400";
+  } else if (weatherData && weatherData.data.values.temperature <= 9) {
+    mainContainer.style.backgroundColor = "#0f75e2";
+  }
+  if (weatherData && weatherData.data.values.humidity > 40) {
+    spooky.hungry += 5;
+  }
+});

@@ -11,7 +11,7 @@ body {
   align-items: center;
 }
 .main {
-  background-color: lightblue;
+  background-color: rgb(86, 211, 19);
   border: 2px solid black;
   width: 90%;
   height: 90%;
@@ -248,7 +248,7 @@ body {
 .main__power-btn {
   font-size: 35px;
   position: absolute;
-  left: 3%;
+  left: 1%;
   bottom: 45%;
   height: 60px;
   width: 60px;
@@ -261,5 +261,29 @@ body {
 }
 .fa-power-off {
   font-size: 35px;
-  color: lightblue;
+  color: rgb(255, 255, 255);
+}
+.main__search {
+  display: flex;
+  align-items: center;
+}
+.main__search__input {
+  border-radius: 0.3rem;
+  outline: none;
+  border: 2px solid black;
+  width: 80%;
+  height: 2rem;
+}
+.weather-section {
+  width: 400px;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.weather-section h1 {
+  font-size: 1rem;
+}
+.main__weather-info-section__temp {
+  margin-bottom: 0.7rem;
 }
